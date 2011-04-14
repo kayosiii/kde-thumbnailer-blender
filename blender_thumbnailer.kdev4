@@ -1,0 +1,4 @@
+[Project]
+Name=blender_thumbnailer
+Manager=KDevCMakeManager
+VersionControl=
