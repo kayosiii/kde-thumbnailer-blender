@@ -1,0 +1,29 @@
+This package was debianized by Danni Coy <danni.coy@gmail.com>
+
+It was downloaded from
+
+Upstream Author: Danni Coy  <danni.coy@gmail.com>
+
+Copyright © 2011 Danni Coy  <danni.coy@gmail.com>
+
+License:
+
+    This is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License version 3
+    only, as published by the Free Software Foundation.
+
+    This is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License version 3 for more details
+    (a copy is included in the LICENSE file that accompanied this code).
+
+    You should have received a copy of the GNU Lesser General Public License
+    version 3 along with OpenOffice.org Thumbnail Creator.  If not, see
+    <http://www.gnu.org/licenses/> for a copy of the LGPLv3 License.
+
+On Debian GNU/Linux systems, the complete text of the GNU Lesser General Public
+License version 3 can be found in the /usr/share/common-licenses/LGPL-3 file.
+
+The Debian packaging is Copyright © 2011, Danni Coy <danni.coy@gmail.com> and
+licensed under the GNU Lesser General Public License version 3, see above.
