@@ -27,6 +27,7 @@ public:
     BlendCreator();
     virtual bool create(const QString &path, int width, int height, QImage &img);
     virtual Flags flags() const;
+
 };
 
 #endif

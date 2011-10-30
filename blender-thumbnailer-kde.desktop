@@ -4,6 +4,6 @@ Type=Service
 Name=Blender documents
 X-KDE-ServiceTypes=ThumbCreator
 ServiceTypes=ThumbCreator
-MimeType=application/x-blender;
+MimeType=application/x-blender;application/x-gzip;
 X-KDE-Library=blender-thumbnailer-kde
 CacheThumbnail=true

@@ -1,4 +1,4 @@
 [Project]
 Manager=KDevCMakeManager
-Name=kde_thumbnail_creator_blender
+Name=kde-thumbnailer-blender
 VersionControl=

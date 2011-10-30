@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <zlib.h>
 #include <kdebug.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <qbuffer.h>
 #include <KFilterDev>
 
@@ -36,29 +36,34 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   QDataStream in_data;
   char zipmagick[2];
   qint64 z = in_file.peek(zipmagick,2);
+  
     unsigned char zm2 = zipmagick[1];
-
-  if(z && zipmagick[0]==0x1f && zm2 == 0x8b) {
-//     gz_file = KFilterDev::device(&in_file,"application/x-gzip",true);
-//     in_file.close();
-//     gz_file->open(QIODevice::ReadOnly);
-//     in_data.setDevice(gz_file);
-    return false;
+    unsigned char zm1 = zipmagick[0];
+  if(z && zm1==0x1f && zm2 == 0x8b) {
+	const QString mimetype = "application/x-gzip";
+	in_file.close();
+    gz_file = KFilterDev::deviceForFile(path,mimetype,true);
+    gz_file->open(QIODevice::ReadOnly);
+    in_data.setDevice(gz_file);
   } else {
     in_data.setDevice(&in_file);
   }
   char magic[7];
   in_data.readRawData(magic,7);
+//   printf("magic %s\n",magic);
   QByteArray magick(magic);
   if( !magick.startsWith("BLENDER")){
 //     !strcmp(magic,"BLENDER",7)){
+// 	printf ("not a blend file\n");
     kDebug(0) << "not a blend file " << path << endl;
     in_file.close();
     return false;
   }
   qint8 is_64_bit = 0;
   in_data >> is_64_bit;
+//   printf("64 bits %i\n",is_64_bit);
   int header_size = (is_64_bit == '-')? 24 : 20;
+
   int header_remaining = header_size-8; // what is left after we remove the first two ints
   qint8 is_big_endian =0;
   in_data >> is_big_endian;
@@ -79,7 +84,11 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   while(true){
     in_data >> code;
     in_data >> length;
-    if(code == REND) {            in_data.skipRawData(length+header_remaining);}
+    if(code == REND) {
+// 	  printf("render section skipping %i + %i\n",length, header_remaining);
+	  char buf[length+header_remaining];
+	  in_data.readRawData(buf,length+header_remaining);
+	}
     else {break;}
   }
   if(code != TEST) {
@@ -87,10 +96,13 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
     in_file.close();
     return false;
   }
-  in_data.skipRawData(header_remaining);
-  int x=0,y=0;
+//   printf("found relevent section code %i skipping %i\n", code, header_remaining);
+  char buf[header_remaining];
+  in_data.readRawData(buf,header_remaining);
+  quint32 x=0,y=0;
   in_data >> x;
   in_data >> y;
+//   printf("x %i,y %i\n",x,y);
 
   if ((length-8) != x * y * 4) {
     in_file.close();
@@ -98,19 +110,18 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   }
   char img_data[length-8];
   in_data.readRawData(img_data,length-8);
-   QImage out_img((unsigned char*) img_data,x,y,QImage::Format_RGB32);
-   img = out_img.mirrored();
-//   if(!img.loadFromData(image_data)) {
-// 	kDebug(0) << "img.load(): " << path << endl;
-// 	return false;
-//   }
-
-//   if(img.depth() != 32) { img = img.convertToFormat(QImage::Format_RGB32);}
+   QImage out_img((unsigned char*) img_data,x,y,QImage::Format_ARGB32);
+  
+   out_img = out_img.mirrored();
+   img = out_img.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
   kDebug(0) << "Thumbnail for " << path << " created" << endl;
   in_file.close();
   return true;
 }
+
+
+
 
 ThumbCreator::Flags BlendCreator::flags() const{
     return None;

@@ -1,3 +1,14 @@
+kde-thumbnailer-blender (0.2kayosiii) oneiric; urgency=low
+
+  * support for compressed files
+  * handle alpha correctly
+
+ -- Danni Coy <danni.coy@gmail.com>  Sun, 30 Oct 2011 04:12:14 +1000
+kde-thumbnailer-blender (0.1kayosiii2) natty; urgency=low
+
+  * build system fixes
+
+ -- Danni Coy <danni.coy@gmail.com>  Wed, 08 Jun 2011 04:12:14 +1000
 kde-thumbnailer-blender (0.1kayosiii1) natty; urgency=low
 
   * Initial release.
