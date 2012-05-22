@@ -110,8 +110,10 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   }
   char img_data[length-8];
   in_data.readRawData(img_data,length-8);
+  abgr_to_argb(img_data,length-8);
    QImage out_img((unsigned char*) img_data,x,y,QImage::Format_ARGB32);
-  
+   if(width != 128) { out_img = out_img.scaledToWidth(width,Qt::SmoothTransformation); }
+   if(height != 128) { out_img = out_img.scaledToHeight(height,Qt::SmoothTransformation); }
    out_img = out_img.mirrored();
    img = out_img.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
@@ -120,6 +122,14 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   return true;
 }
 
+void BlendCreator::abgr_to_argb(char* buff, int size) const {
+  char tmp;
+  for (int i=0; i<size;i+=4) {
+	tmp = buff[i];
+	buff[i] = buff[i+2];
+	buff[i+2] = tmp;
+  }
+}
 
 
 

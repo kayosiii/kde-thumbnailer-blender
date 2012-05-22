@@ -1,3 +1,24 @@
+kde-thumbnailer-blender (0.3kayosiii) precise; urgency=low
+
+  * compile for precise
+
+ -- Danni Coy (laptop) <danni.coy@gmail.com>  Tue, 22 May 2012 04:12:14 +1000
+kde-thumbnailer-blender (0.3kayosiii5) oneiric; urgency=low
+
+  * why is debuild so picky.
+
+ -- Danni Coy <danni.coy@gmail.com>  Thu, 03 Nov 2011 08:12:14 +1000
+kde-thumbnailer-blender (0.3kayosiii1) oneiric; urgency=low
+
+  * why is launchpad so picky.
+
+ -- Danni Coy <danni.coy@gmail.com>  Thu, 03 Nov 2011 07:12:14 +1000
+kde-thumbnailer-blender (0.3kayosiii) oneiric; urgency=low
+
+  * flip blue and red channels.
+  * try taking size of icon asked for into account.
+
+ -- Danni Coy <danni.coy@gmail.com>  Thu, 03 Nov 2011 04:12:14 +1000
 kde-thumbnailer-blender (0.2kayosiii) oneiric; urgency=low
 
   * support for compressed files

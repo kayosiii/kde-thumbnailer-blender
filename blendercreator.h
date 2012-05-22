@@ -27,7 +27,7 @@ public:
     BlendCreator();
     virtual bool create(const QString &path, int width, int height, QImage &img);
     virtual Flags flags() const;
-
+	void abgr_to_argb(char * buff, int size )const;
 };
 
 #endif
