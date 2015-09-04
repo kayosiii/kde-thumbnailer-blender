@@ -1,3 +1,21 @@
+kde-thumbnailer-blender (0.5kayosiiiubuntu3) vivid; urgency=medium
+
+  * Update for KF5 and Vivid
+
+ -- Danni Coy <danni.coy@gmail.com>  Sun, 29 Mar 2015 15:00:42 +1000
+
+kde-thumbnailer-blender (0.3kayosiiiubuntu2) trusty; urgency=medium
+
+  * update for Trusty
+
+ -- Danni Coy <danni.coy@gmail.com>  Tue, 13 May 2014 13:35:17 +1000
+
+kde-thumbnailer-blender (0.3kayosiiiubuntu1) quantal; urgency=low
+
+  * update for Quantal
+ 
+ -- Danni Coy (laptop) <danni.coy@gmail.com>  Sun, 11 Nov 2012 06:14:10 +1000
+
 kde-thumbnailer-blender (0.3kayosiii) precise; urgency=low
 
   * compile for precise

@@ -4,14 +4,17 @@
 #include <QImage>
 #include <assert.h>
 #include <zlib.h>
-#include <kdebug.h>
-// #include <stdio.h>
+#include <QLoggingCategory>
+Q_DECLARE_LOGGING_CATEGORY(LOG_KIO_BLEND)
+Q_LOGGING_CATEGORY(LOG_KIO_BLEND, "kio_blender")
 #include <qbuffer.h>
-#include <KFilterDev>
+// #include <KFilterDev>
+#include <KCompressionDevice>
 
 
 extern "C" {
-  KDE_EXPORT ThumbCreator *new_creator() {
+    
+  Q_DECL_EXPORT ThumbCreator *new_creator() {
     return new BlendCreator;
   }
 
@@ -29,10 +32,10 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   QFile in_file (path);
 
   if(!in_file.open(QIODevice::ReadOnly)) {
-    kDebug(0) << "blend.open" << path << endl;
+    qCDebug(LOG_KIO_BLEND) << "blend.open" << path << endl;
     return false;
   }
-  QIODevice * gz_file;
+  KCompressionDevice * gz_file;
   QDataStream in_data;
   char zipmagick[2];
   qint64 z = in_file.peek(zipmagick,2);
@@ -40,9 +43,8 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
     unsigned char zm2 = zipmagick[1];
     unsigned char zm1 = zipmagick[0];
   if(z && zm1==0x1f && zm2 == 0x8b) {
-	const QString mimetype = "application/x-gzip";
-	in_file.close();
-    gz_file = KFilterDev::deviceForFile(path,mimetype,true);
+    in_file.close();
+    gz_file = new KCompressionDevice(path, KCompressionDevice::GZip);
     gz_file->open(QIODevice::ReadOnly);
     in_data.setDevice(gz_file);
   } else {
@@ -55,7 +57,7 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
   if( !magick.startsWith("BLENDER")){
 //     !strcmp(magic,"BLENDER",7)){
 // 	printf ("not a blend file\n");
-    kDebug(0) << "not a blend file " << path << endl;
+    qCDebug(LOG_KIO_BLEND) << "not a blend file " << path << endl;
     in_file.close();
     return false;
   }
@@ -92,7 +94,7 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
     else {break;}
   }
   if(code != TEST) {
-    kDebug(0) << "no thumbnail found" << endl;
+    qCDebug(LOG_KIO_BLEND) << "no thumbnail found" << endl;
     in_file.close();
     return false;
   }
@@ -117,7 +119,7 @@ bool BlendCreator::create(const QString& path, int width , int height, QImage& i
    out_img = out_img.mirrored();
    img = out_img.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-  kDebug(0) << "Thumbnail for " << path << " created" << endl;
+  qCDebug(LOG_KIO_BLEND) << "Thumbnail for " << path << " created" << endl;
   in_file.close();
   return true;
 }
